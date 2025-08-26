@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Shopping Cart</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button, select { margin: 5px; }
+    table { border-collapse: collapse; width: 80%; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel</h1>
+
+  <h2>Categories</h2>
+  <input type="text" id="categoryName" placeholder="Category Name">
+  <select id="parentCategory">
+    <option value="">--No Parent--</option>
+  </select>
+  <button onclick="addCategory()">Add Category</button>
+  <table id="categoriesTable"></table>
+
+  <h2>Products</h2>
+  <input type="text" id="productName" placeholder="Product Name">
+  <input type="number" id="productPrice" placeholder="Price">
+  <select id="productCategory"></select>
+  <input type="number" id="productStock" placeholder="Stock">
+  <button onclick="addProduct()">Add Product</button>
+  <table id="productsTable"></table>
+
+<script>
+const api = "http://localhost:5000/api";
+
+// Fetch categories for select & table
+async function loadCategories() {
+  const res = await fetch(`${api}/categories`);
+  const categories = await res.json();
+  const parentSelect = document.getElementById("parentCategory");
+  const productSelect = document.getElementById("productCategory");
+  parentSelect.innerHTML = '<option value="">--No Parent--</option>';
+  productSelect.innerHTML = '';
+  let tableHTML = '<tr><th>Name</th><th>Parent</th></tr>';
+  categories.forEach(c => {
+    parentSelect.innerHTML += `<option value="${c._id}">${c.name}</option>`;
+    productSelect.innerHTML += `<option value="${c._id}">${c.name}</option>`;
+    tableHTML += `<tr><td>${c.name}</td><td>${c.parent ? c.parent.name : '-'}</td></tr>`;
+  });
+  document.getElementById("categoriesTable").innerHTML = tableHTML;
+}
+loadCategories();
+
+// Add category
+async function addCategory() {
+  const name = document.getElementById("categoryName").value;
+  const parent = document.getElementById("parentCategory").value;
+  await fetch(`${api}/categories`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({name, parent})
+  });
+  document.getElementById("categoryName").value = '';
+  loadCategories();
+}
+
+// Fetch & display products
+async function loadProducts() {
+  const res = await fetch(`${api}/products`);
+  const products = await res.json();
+  let tableHTML = '<tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th></tr>';
+  products.forEach(p => {
+    tableHTML += `<tr><td>${p.name}</td><td>${p.category ? p.category.name : '-'}</td><td>${p.price}</td><td>${p.stock}</td></tr>`;
+  });
+  document.getElementById("productsTable").innerHTML = tableHTML;
+}
+loadProducts();
+
+// Add product
+async function addProduct() {
+  const name = document.getElementById("productName").value;
+  const price = parseFloat(document.getElementById("productPrice").value);
+  const category = document.getElementById("productCategory").value;
+  const stock = parseInt(document.getElementById("productStock").value);
+  await fetch(`${api}/products`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({name, price, category, stock})
+  });
+  document.getElementById("productName").value = '';
+  document.getElementById("productPrice").value = '';
+  document.getElementById("productStock").value = '';
+  loadProducts();
+}
+</script>
+</body>
+</html>

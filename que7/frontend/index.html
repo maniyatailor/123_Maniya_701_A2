@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart - User</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; }
+    table { border-collapse: collapse; width: 80%; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+  </style>
+</head>
+<body>
+<h1>Shopping Cart - User</h1>
+
+<h2>Products</h2>
+<table id="productsTable"></table>
+
+<h2>Your Cart</h2>
+<table id="cartTable"></table>
+
+<script>
+const api = "http://localhost:5000/api";
+let userId = null;
+
+// Fetch the seeded test user
+async function loadUser() {
+  const res = await fetch(`${api}/users`);
+  const users = await res.json();
+  const testUser = users.find(u => u.email === "testuser@example.com");
+  if (testUser) userId = testUser._id;
+}
+
+// Load products
+async function loadProducts() {
+  const res = await fetch(`${api}/products`);
+  const products = await res.json();
+  let tableHTML = '<tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr>';
+  products.forEach(p => {
+    tableHTML += `<tr>
+      <td>${p.name}</td>
+      <td>${p.category ? p.category.name : '-'}</td>
+      <td>${p.price}</td>
+      <td>${p.stock}</td>
+      <td><button onclick="addToCart('${p._id}')">Add to Cart</button></td>
+    </tr>`;
+  });
+  document.getElementById("productsTable").innerHTML = tableHTML;
+}
+
+// Load cart
+async function loadCart() {
+  if (!userId) return;
+  const res = await fetch(`${api}/users/${userId}/cart`);
+  const cart = await res.json();
+  let tableHTML = '<tr><th>Product</th><th>Qty</th><th>Price</th></tr>';
+  cart.products.forEach(p => {
+    tableHTML += `<tr>
+      <td>${p.product.name}</td>
+      <td>${p.quantity}</td>
+      <td>${p.product.price * p.quantity}</td>
+    </tr>`;
+  });
+  tableHTML += `<tr><td colspan="2"><b>Total</b></td><td>${cart.totalPrice || 0}</td></tr>`;
+  document.getElementById("cartTable").innerHTML = tableHTML;
+}
+
+// Add to cart
+async function addToCart(productId) {
+  if (!userId) return;
+  await fetch(`${api}/users/cart`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({userId, productId, quantity:1})
+  });
+  loadCart();
+}
+
+// Initialize
+async function init() {
+  await loadUser();
+  loadProducts();
+  loadCart();
+}
+
+init();
+</script>
+</body>
+</html>
