@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leave List</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="card">
+    <h2>My Leaves</h2>
+    <table>
+      <tr><th>Date</th><th>Reason</th><th>Status</th></tr>
+      <% leaves.forEach(leave => { %>
+        <tr>
+          <td><%= leave.date.toDateString() %></td>
+          <td><%= leave.reason %></td>
+          <td><%= leave.grant %></td>
+        </tr>
+      <% }) %>
+    </table>
+    <a href="/profile">Back to Profile</a>
+  </div>
+</body>
+</html>

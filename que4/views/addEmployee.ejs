@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add/Edit Employee</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="card">
+    <h2><%= employee ? 'Edit' : 'Add' %> Employee</h2>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+    <form method="POST" action="<%= employee ? '/employees/edit/' + employee._id : '/employees/add' %>">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Name" value="<%= employee ? employee.name : '' %>" required />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="Email" value="<%= employee ? employee.email : '' %>" required />
+      </div>
+      <div class="form-group">
+        <label>Salary</label>
+        <input type="number" name="salary" placeholder="Salary" value="<%= employee ? employee.salary : '' %>" required />
+      </div>
+      <button type="submit"><%= employee ? 'Update' : 'Add' %></button>
+    </form>
+    <a href="/employees">Back</a>
+  </div>
+</body>
+</html>

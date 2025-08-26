@@ -1,0 +1,17 @@
+{
+  "username": "sonali",
+  "password": "sonali123",
+  "confirmPassword": "sonali123",
+  "email": "sonali@gmail.com",
+  "gender": "female",
+  "hobbies": [
+    "reading",
+    "music"
+  ],
+  "profilePic": "1754845855679-9.jpeg",
+  "otherPics": [
+    "1754845855699-1.jpg",
+    "1754845855701-2.jpeg",
+    "1754845855706-3.jpeg"
+  ]
+}

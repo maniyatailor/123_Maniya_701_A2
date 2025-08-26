@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration</title>
+  <style>
+    body { font-family: Arial; background: #f9f9f9; }
+    .register-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h2 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    form {
+      width: 400px;
+      background: #fff;
+      padding: 30px 30px 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      width: 100%;
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="password"], input[type="email"], input[type="file"] {
+      font-size: 1.1rem;
+      padding: 8px;
+      margin-bottom: 10px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    button {
+      font-size: 1.1rem;
+      padding: 10px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>User Registration Form</h2>
+    <form action="/register" method="POST" enctype="multipart/form-data">
+      <label>Username:
+        <input type="text" name="username" value="<%= old.username || '' %>" />
+        <% if (errors.username) { %><span class="error"><%= errors.username.msg %></span><% } %>
+      </label>
+      <label>Password:
+        <input type="password" name="password" />
+        <% if (errors.password) { %><span class="error"><%= errors.password.msg %></span><% } %>
+      </label>
+      <label>Confirm Password:
+        <input type="password" name="confirmPassword" />
+        <% if (errors.confirmPassword) { %><span class="error"><%= errors.confirmPassword.msg %></span><% } %>
+      </label>
+      <label>Email:
+        <input type="email" name="email" value="<%= old.email || '' %>" />
+        <% if (errors.email) { %><span class="error"><%= errors.email.msg %></span><% } %>
+      </label>
+      <label>Gender:
+        <input type="radio" name="gender" value="male" <%= old.gender === 'male' ? 'checked' : '' %> /> Male
+        <input type="radio" name="gender" value="female" <%= old.gender === 'female' ? 'checked' : '' %> /> Female
+        <input type="radio" name="gender" value="other" <%= old.gender === 'other' ? 'checked' : '' %> /> Other
+        <% if (errors.gender) { %><span class="error"><%= errors.gender.msg %></span><% } %>
+      </label>
+      <label>Hobbies:
+        <input type="checkbox" name="hobbies" value="reading" <%= old.hobbies && old.hobbies.includes('reading') ? 'checked' : '' %> /> Reading
+        <input type="checkbox" name="hobbies" value="sports" <%= old.hobbies && old.hobbies.includes('sports') ? 'checked' : '' %> /> Sports
+        <input type="checkbox" name="hobbies" value="music" <%= old.hobbies && old.hobbies.includes('music') ? 'checked' : '' %> /> Music
+        <input type="checkbox" name="hobbies" value="travel" <%= old.hobbies && old.hobbies.includes('travel') ? 'checked' : '' %> /> Travel
+        <% if (errors.hobbies) { %><span class="error"><%= errors.hobbies.msg %></span><% } %>
+      </label>
+      <label>Profile Pic:
+        <input type="file" name="profilePic" accept="image/*" />
+        <% if (errors.profilePic) { %><span class="error"><%= errors.profilePic.msg %></span><% } %>
+      </label>
+      <label>Other Pics (multiple):
+        <input type="file" name="otherPics" accept="image/*" multiple />
+      </label>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</body>
+</html>

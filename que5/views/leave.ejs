@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Apply for Leave</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="card">
+    <h2>Leave Application</h2>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+    <form method="POST" action="/leave">
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" name="date" required />
+      </div>
+      <div class="form-group">
+        <label>Reason</label>
+        <input type="text" name="reason" placeholder="Reason" required />
+      </div>
+      <button type="submit">Apply</button>
+    </form>
+    <a href="/profile">Back to Profile</a>
+  </div>
+</body>
+</html>

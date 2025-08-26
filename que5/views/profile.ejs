@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employee Profile</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="card">
+    <h2>Profile</h2>
+    <table>
+      <tr><th>Employee ID</th><td><%= employee.empid %></td></tr>
+      <tr><th>Name</th><td><%= employee.name %></td></tr>
+      <tr><th>Email</th><td><%= employee.email %></td></tr>
+      <tr><th>Salary</th><td><%= employee.salary %></td></tr>
+    </table>
+    <a href="/leave">Apply for Leave</a> | <a href="/leaves">View Leaves</a> | <a href="/logout">Logout</a>
+  </div>
+</body>
+</html>

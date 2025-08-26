@@ -1,0 +1,17 @@
+{
+  "username": "Radha",
+  "password": "radha123",
+  "confirmPassword": "radha123",
+  "email": "radha@gmail.com",
+  "gender": "female",
+  "hobbies": [
+    "reading",
+    "music",
+    "travel"
+  ],
+  "profilePic": "1755939148349-9.jpeg",
+  "otherPics": [
+    "1755939148433-6.jpeg",
+    "1755939148443-11.jpeg"
+  ]
+}
